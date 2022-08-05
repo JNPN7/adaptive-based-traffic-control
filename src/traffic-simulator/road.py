@@ -1,4 +1,5 @@
 import pygame
+from draw_dashed import dashed_rect
 
 def draw_road(screen, width, height, road_width):
     wc, hc = width/2, height/2
@@ -16,11 +17,13 @@ def draw_road(screen, width, height, road_width):
     pygame.draw.rect(screen, 'black', (0, wc-road_width/2, height, road_width))
     pygame.draw.rect(screen, 'black', (hc-road_width/2, 0, road_width, width))
 
+    # median strip
+    dashed_rect(screen, 'yellow', (0,hc,wc-zebra_crossing_dist,hc),width=3)
+    dashed_rect(screen, 'yellow', (wc+zebra_crossing_dist,hc,width,hc),width=3)
+    dashed_rect(screen, 'yellow', (wc,0,wc,hc-zebra_crossing_dist),width=3)
+    dashed_rect(screen, 'yellow', (wc,hc+zebra_crossing_dist,wc,height),width=3)
 
-    pygame.draw.line(screen, 'yellow', (0, hc), (wc - zebra_crossing_dist, hc), 5)
-    pygame.draw.line(screen, 'yellow', (wc + zebra_crossing_dist, hc), (width, hc), 5)
-    pygame.draw.line(screen, 'yellow', (wc, 0), (wc, hc - zebra_crossing_dist), 5)
-    pygame.draw.line(screen, 'yellow', (wc, hc + zebra_crossing_dist), (wc, height), 5)
+
 
     # pygame.draw.rect(screen, 'yellow', pygame.Rect(wc - road_width/2 - 20 , hc - road_width/2 - 20, road_width + 40, road_width + 40), 5)
 
