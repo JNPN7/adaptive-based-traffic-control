@@ -2,11 +2,13 @@ import sys, pygame
 from road import draw_road
 from traffic_light import TrafficLight
 
+from vehicles import *
+
 pygame.init()
 
 
-size = WIDTH, HEIGHT = 650, 650
-ROAD_WIDTH = 120
+size = WIDTH, HEIGHT = 700, 700
+ROAD_WIDTH = 150
 
 speed = [0, 0]
 
@@ -28,6 +30,15 @@ traffic_lights =  [
     TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4, WIDTH / 2 - ROAD_WIDTH /2 * 1.4, 'T'), 
     TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4, WIDTH / 2 + ROAD_WIDTH /2 * 1.4, 'B'), 
 ]
+
+v1 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.left, Direction.right)
+v2 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.left, Direction.right)
+v3 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.right, Direction.right)
+v4 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.right, Direction.right)
+v5 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.up, Direction.right)
+v6 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.up, Direction.right)
+v7 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.down, Direction.right)
+v8 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.down, Direction.right)
 
 
 while 1:
@@ -56,4 +67,12 @@ while 1:
         traffic.draw(screen)
 
     draw_road(screen, WIDTH, HEIGHT, ROAD_WIDTH)
+    v1.draw(screen)
+    v2.draw(screen)
+    v3.draw(screen)
+    v4.draw(screen)
+    v5.draw(screen)
+    v6.draw(screen)
+    v7.draw(screen)
+    v8.draw(screen)
     pygame.display.flip()
