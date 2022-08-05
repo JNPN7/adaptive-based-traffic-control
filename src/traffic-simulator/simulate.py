@@ -1,9 +1,11 @@
 import sys, pygame
+from color import Color 
+from road import draw_road
 
 pygame.init()
 
 
-size = width, height = 1000, 1000
+size = width, height = 650, 650
 
 speed = [0, 0]
 
@@ -39,9 +41,9 @@ while 1:
         speed[1] = -speed[1]
 
 
-    screen.fill(black)
+    screen.fill(Color.green.value)
 
     # screen.blit(ball, ballrect)
-    pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10 , 10))
 
+    draw_road(screen, width, height)
     pygame.display.flip()

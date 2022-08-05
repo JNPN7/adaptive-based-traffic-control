@@ -1,6 +1,5 @@
-from abc import abstractclassmethod
-from turtle import Vec2D
-
+from abc import abstractmethod
+import pygame
 
 class Vehicle:
     def __init__(self, pos, speed, length, breadth) -> None:
@@ -8,7 +7,6 @@ class Vehicle:
         self.length = length
         self.breadth = breadth
         self.pos = pos
-
         pass
 
     def get_speed(self) -> int:
@@ -23,8 +21,11 @@ class Vehicle:
     def change_speed(self):
         pass
 
-    def draw(self):
+    @abstractmethod
+    def draw(self, screen):
         pass
+    
+
 
 class Bus(Vehicle):
     def __init__(self, pos, speed, length, breadth) -> None:
