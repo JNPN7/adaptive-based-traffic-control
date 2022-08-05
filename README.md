@@ -2,7 +2,7 @@
 An AI based traffic control system to be developed during KU hackfest 2022.
 
 ## Team Details:
-### Name: Rogue 1
+### Name: Rogue One
 ### Members:
 1. Abhinandan Shrestha
 2. Anish Shilpakar
