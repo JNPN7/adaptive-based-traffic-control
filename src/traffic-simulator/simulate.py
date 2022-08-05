@@ -1,11 +1,12 @@
 import sys, pygame
-from color import Color 
 from road import draw_road
+from traffic_light import TrafficLight
 
 pygame.init()
 
 
-size = width, height = 650, 650
+size = WIDTH, HEIGHT = 650, 650
+ROAD_WIDTH = 120
 
 speed = [0, 0]
 
@@ -21,6 +22,13 @@ pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10 , 10))
 
 ballrect = ball.get_rect()
 
+traffic_lights =  [
+    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4, WIDTH / 2 - ROAD_WIDTH /2 * 1.4, 'L'), 
+    TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4, WIDTH / 2 + ROAD_WIDTH /2 * 1.4, 'R'), 
+    TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4, WIDTH / 2 - ROAD_WIDTH /2 * 1.4, 'T'), 
+    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4, WIDTH / 2 + ROAD_WIDTH /2 * 1.4, 'B'), 
+]
+
 
 while 1:
     pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10 , 10))
@@ -32,18 +40,20 @@ while 1:
 
     ballrect = ballrect.move(speed)
 
-    if ballrect.left < 0 or ballrect.right > width:
+    if ballrect.left < 0 or ballrect.right > WIDTH:
 
         speed[0] = -speed[0]
 
-    if ballrect.top < 0 or ballrect.bottom > height:
+    if ballrect.top < 0 or ballrect.bottom > HEIGHT:
 
         speed[1] = -speed[1]
 
 
-    screen.fill(Color.green.value)
+    screen.fill('green')
 
     # screen.blit(ball, ballrect)
+    for traffic in traffic_lights:
+        traffic.draw(screen)
 
-    draw_road(screen, width, height)
+    draw_road(screen, WIDTH, HEIGHT, ROAD_WIDTH)
     pygame.display.flip()

@@ -1,8 +1,12 @@
 from abc import abstractmethod
+from winreg import DisableReflectionKey
 import pygame
 
 class Vehicle:
     def __init__(self, pos, speed, length, breadth) -> None:
+        self.lane = lane,
+        self.direction = direction,
+        
         self.speed = speed
         self.length = length
         self.breadth = breadth
