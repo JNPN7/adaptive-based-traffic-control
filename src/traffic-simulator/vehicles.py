@@ -119,9 +119,7 @@ class Vehicle:
         elif self.direction == Direction.up:
             if not self.crossed_zebra and traffic == TrafficLightStatus.red and (self.pos[1] + self.height / 2) >= (HEIGHT_CENTRE - ZEBRA_CROSSING_DIST - 20):
                 return
-            # if (self.crossed_zebra == 0 and self.pos[1] + self.height / 2 < HEIGHT/2-zebra_crossing_dist):
             if (not self.crossed_zebra and self.pos[1] + self.height / 2 > HEIGHT_CENTRE-zebra_crossing_dist):
-                # print("corssed")
                 self.crossed_zebra = 1
             if True:
                 self.pos[1] += self.speed

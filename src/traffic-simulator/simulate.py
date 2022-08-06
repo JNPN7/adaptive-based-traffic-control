@@ -146,13 +146,17 @@ while 1:
     # v6.draw(screen)
     # v7.draw(screen)
     # v8.draw(screen)
+    temp_vechiles = vehicles
 
     for vehicle in vehicles:
         vehicle.draw(screen)
         light = find_associate_light(vehicle)
         vehicle.move(vehicles_dict, light)
-        # if vehicle.pos[0]
-
+        if vehicle.pos[0] <= - 20 or vehicle.pos[0] >= WIDTH + 20 or vehicle.pos[1] <= -20 or vehicle.pos[1] >= WIDTH + 20:
+            temp_vechiles.remove(vehicle)
+            vehicles_dict[vehicle.direction][vehicle.lane].remove(vehicle)
+    
+    vehicles = temp_vechiles
     # v1.move()
     # v2.move()
     # v3.move()
