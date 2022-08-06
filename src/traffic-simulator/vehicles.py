@@ -1,4 +1,3 @@
-from fcntl import F_SEAL_SEAL
 import pygame
 from enum import Enum
 from variables import *

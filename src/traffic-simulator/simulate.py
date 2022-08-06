@@ -7,7 +7,7 @@ import random
 import threading
 from vehicles import *
 from variables import *
-from time import sleep
+from time import sleep,time
 
 pygame.init()
 
@@ -32,6 +32,18 @@ traffic_lights = [
     TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
                  WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T','red'),
 ]
+
+vehicles_list99 = []
+for i in range(100):
+    lane = Lane(random.randint(1, 2))
+    direction = Direction(random.randint(1, 4))
+    lst = list(range(1, 5))
+    del lst[direction.value - 1]
+    dest_direction = Direction(random.choice(lst))
+    vehicle = Vehicle(0.17, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direction)
+    vehicles_list99.append(vehicle)
+
+# print(vehicles_list99)
 
 # v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left, 
 #              Direction.left)
@@ -96,18 +108,23 @@ def find_associate_light(vehicle):
         return traffic_lights[2]
     return traffic_lights[3]
 
+generate_completed = False
 def generate_vehicle():
-    while True: 
-        lane = Lane(random.randint(1, 2))
-        direction = Direction(random.randint(1, 4))
-        lst = list(range(1, 5))
-        del lst[direction.value - 1]
-        dest_direciton = Direction(random.choice(lst))
-        vehicle = Vehicle(0.17, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direciton)
+    # while True: 
+        # lane = Lane(random.randint(1, 2))
+        # direction = Direction(random.randint(1, 4))
+        # lst = list(range(1, 5))
+        # del lst[direction.value - 1]
+        # dest_direciton = Direction(random.choice(lst))
+        # vehicle = Vehicle(0.17, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direciton)
+        # vehicles.append(vehicle)
+    for vehicle in vehicles_list99:
+        vehicles_dict[vehicle.direction][vehicle.lane].append(vehicle)
         vehicles.append(vehicle)
-        vehicles_dict[direction][lane].append(vehicle)
         # print(vehicles_dict)
         sleep(0.5)
+    global generate_completed
+    generate_completed = True
 
 def initialize_lights(indexs):
     while True:
@@ -190,7 +207,7 @@ generate_vehicle_thread = threading.Thread(name="Initialization", target=generat
 generate_vehicle_thread.daemon = True
 generate_vehicle_thread.start()
 
-
+start_time = time()
 while 1:
     pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
 
@@ -245,7 +262,12 @@ while 1:
         greentime = get_greenligth_time(no_of_vehicles)
         light.change_green_light_time(greentime)
         yellowtime = get_yellowligth_time(no_of_vehicles)
-        print(greentime)
+    
+    if generate_completed == True and len(vehicles) == 0: 
+        print('Simulation Complete')
+        print(f'Simulation Time: {(time() - start_time)/60} min')
+        sys.exit(0)
+        # print(greentime)
         # light.change_yelow_light_time(yellowtime)
 
     # v1.move()
@@ -258,4 +280,3 @@ while 1:
     # v8.move()
 
     pygame.display.flip()
-
