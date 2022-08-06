@@ -15,6 +15,7 @@ class TrafficLight():
         pygame.font.get_init()
         self.text = txt   
         self.font1 = pygame.font.SysFont('freesanbold.ttf', 30)
+        self.font2 = pygame.font.SysFont('freesanbold.ttf', 35)
         self.txt = self.font1.render(txt, True, (0, 0, 0))
         self.txt_rect = self.txt.get_rect()
         self.pos = (x, y)
@@ -90,7 +91,7 @@ class TrafficLight():
         # print(self.YellowTime)
 
     def draw(self, screen, count):
-        count_txt = self.font1.render(str(count), True, (0, 0, 0)) 
+        count_txt = self.font2.render(str(count), True, (0, 0, 0), (255, 255, 255)) 
         txt_rect = count_txt.get_rect()
         if self.text == 'L'  or self.text == 'B':
             pos = (self.pos[0]-25, self.pos[1])

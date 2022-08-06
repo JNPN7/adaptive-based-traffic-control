@@ -28,6 +28,7 @@ class Vehicle:
         self.dest_direction = dest_direction
         self.crossed_zebra = 0
         self.pos = self._get_coordinate(direction, lane)
+        self.color = pygame.Color(230, 245, 245)
 
     def _get_coordinate(self, direction, lane):
         x = 0
@@ -158,7 +159,7 @@ class Vehicle:
     # @abstractmethod
     def draw(self, screen):
         # print(self._get_rect_pos())
-        pygame.draw.rect(screen, 'blue', self._get_rect_pos())
+        pygame.draw.rect(screen, pygame.Color(230, 245, 245), self._get_rect_pos())
         pass
 
 

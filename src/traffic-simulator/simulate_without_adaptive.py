@@ -1,4 +1,5 @@
 import sys, pygame
+from xml.dom.minidom import ReadOnlySequentialNamedNodeMap
 from road import draw_road
 from traffic_light import TrafficLight
 import random
@@ -33,8 +34,8 @@ traffic_lights = [
                  WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T','red'),
 ]
 
-vehicles_list100 = []
-# for i in range(200):
+# vehicles_list100 = []
+# for i in range(100):
 #     lane = Lane(random.randint(1, 2))
 #     direction = Direction(random.randint(1, 4))
 #     lst = list(range(1, 5))
@@ -235,6 +236,7 @@ top_right = pygame.transform.scale(pygame.image.load('images/top_right.jpg'), ( 
 bottom_left = pygame.transform.scale(pygame.image.load('images/bottom_left.jpg'), ( WIDTH/2 - ROAD_WIDTH / 2 - 5, HEIGHT/2 - ROAD_WIDTH/2-5))
 bottom_right = pygame.transform.scale(pygame.image.load('images/bottom_right.jpg'), ( WIDTH/2 - ROAD_WIDTH / 2 - 5, HEIGHT/2 - ROAD_WIDTH/2-5))
 
+
 while 1:
     pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
 
@@ -256,17 +258,21 @@ while 1:
     # print(f'bottom light status: {traffic_lights[3].get_status()}')
 
     draw_road(screen, WIDTH, HEIGHT, ROAD_WIDTH)
+    txt = font.render("Non", True, (255, 255, 255))
+    txt_rect = txt.get_rect()
+    txt_rect.center = (WIDTH_CENTRE, HEIGHT_CENTRE-20) 
+    screen.blit(txt, txt_rect)
     txt = font.render("Adaptive Chowk", True, (255, 255, 255))
     txt_rect = txt.get_rect()
     txt_rect.center = (WIDTH_CENTRE, HEIGHT_CENTRE) 
     screen.blit(txt, txt_rect)
-    
+
     # houses
     screen.blit(top_left, (0, 0))
     screen.blit(top_right, (WIDTH/2+ROAD_WIDTH/2+5, 0))
     screen.blit(bottom_left, (0, HEIGHT/2+ROAD_WIDTH/2+5))
     screen.blit(bottom_right, (WIDTH/2+ROAD_WIDTH/2+5, HEIGHT/2+ROAD_WIDTH/2+5))
-    
+
     # traffic lights
     for i, traffic in enumerate(traffic_lights):
         count = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
@@ -296,11 +302,11 @@ while 1:
             vehicles_dict[vehicle.direction][vehicle.lane].remove(vehicle)
 
     vehicles = temp_vechiles
-    for i, light in enumerate(traffic_lights):
-        no_of_vehicles = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
-        greentime = get_greenlight_time(no_of_vehicles)
-        light.change_green_light_time(greentime)
-        yellowtime = get_yellowlight_time(no_of_vehicles)
+    # for i, light in enumerate(traffic_lights):
+    #     no_of_vehicles = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
+    #     greentime = get_greenlight_time(no_of_vehicles)
+    #     light.change_green_light_time(greentime)
+    #     yellowtime = get_yellowlight_time(no_of_vehicles)
     
     if generate_completed == True and len(vehicles) == 0: 
         print('Simulation Complete')
@@ -317,10 +323,12 @@ while 1:
     # v6.move()
     # v7.move()
     # v8.move()
+
     end_time = time()
 
     time_lapsed = truncate(end_time - start_time, 2)
 
+    
     txt = font.render("Time Elapsed: ", True, (0, 0, 0), (255, 255, 255))
     txt_rect = txt.get_rect()
     txt_rect.center = (72, 20) 
