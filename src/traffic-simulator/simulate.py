@@ -12,7 +12,6 @@ from time import sleep
 pygame.init()
 
 speed = [0, 0]
-
 black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
@@ -50,6 +49,12 @@ traffic_lights = [
 #              Direction.down)
 # v8 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.down,
 #              Direction.right)
+vehicles_stopped = {
+    Direction.left : [],
+    Direction.right : [],
+    Direction.up : [],
+    Direction.down : []
+}
 vehicles = []
 vehicles_dict = {
     Direction.left: {
@@ -102,7 +107,7 @@ def generate_vehicle():
         vehicles.append(vehicle)
         vehicles_dict[direction][lane].append(vehicle)
         # print(vehicles_dict)
-        sleep(1)
+        sleep(0.5)
 
 def initialize_lights(indexs):
     while True:
@@ -176,8 +181,12 @@ while 1:
 
     screen.fill('brown')
 
-    for traffic in traffic_lights:
-        traffic.draw(screen)
+    for i, traffic in enumerate(traffic_lights):
+        count = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
+        traffic.draw(screen, count)
+    
+    # print(vehicles_stopped[list(vehicles_stopped.keys())[0]])
+    
     # print(f'left light status: {traffic_lights[0].get_status()}')
     # print(f'right light status: {traffic_lights[1].get_status()}')
     # print(f'top light status: {traffic_lights[2].get_status()}')
@@ -192,13 +201,23 @@ while 1:
     # v6.draw(screen)
     # v7.draw(screen)
     # v8.draw(screen)
+    temp_vechiles = vehicles
 
     for vehicle in vehicles:
         vehicle.draw(screen)
         light = find_associate_light(vehicle)
-        vehicle.move(vehicles_dict, light)
-        # if vehicle.pos[0]
+        isMoving = vehicle.move(vehicles_dict, light)
+        if not isMoving:
+            if vehicle not in vehicles_stopped[vehicle.direction]:
+                vehicles_stopped[vehicle.direction].append(vehicle)
+        else:
+            if vehicle in vehicles_stopped[vehicle.direction]: vehicles_stopped[vehicle.direction].remove(vehicle)
 
+        if vehicle.pos[0] <= - 20 or vehicle.pos[0] >= WIDTH + 20 or vehicle.pos[1] <= -20 or vehicle.pos[1] >= WIDTH + 20:
+            temp_vechiles.remove(vehicle)
+            vehicles_dict[vehicle.direction][vehicle.lane].remove(vehicle)
+
+    vehicles = temp_vechiles
     # v1.move()
     # v2.move()
     # v3.move()

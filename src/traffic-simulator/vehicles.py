@@ -1,3 +1,4 @@
+from fcntl import F_SEAL_SEAL
 import pygame
 from enum import Enum
 from variables import *
@@ -5,7 +6,6 @@ from traffic_light import *
 
 zebra_crossing_dist = ROAD_WIDTH/2*1.4
 gap = 40
-
 
 class Direction(Enum):
     up = 1
@@ -81,10 +81,10 @@ class Vehicle:
         status = self.check_bump(dict)
         traffic = light.get_status()
         if status == True:
-            return
+            return False
         if self.direction == Direction.left:
             if not self.crossed_zebra and traffic == TrafficLightStatus.red and ((self.pos[0] + self.width / 2) >= (WIDTH_CENTRE - ZEBRA_CROSSING_DIST - 20)):
-                return
+                return False
             if (not self.crossed_zebra and self.pos[0] + self.width / 2 > WIDTH_CENTRE - ZEBRA_CROSSING_DIST):
                 self.crossed_zebra = 1
             # if (self.crossed_zebra == 0 and self.pos[0] - self.width / 2 < WIDTH/2+zebra_crossing_dist):
@@ -97,12 +97,12 @@ class Vehicle:
                 pass
             elif (self.dest_direction == Direction.down):
                 pass
-            pass
+            return True
         elif self.direction == Direction.right:
             # print(self.crossed_zebra, traffic, (self.pos[0] - self.width / 2) <= (WIDTH_CENTRE + ZEBRA_CROSSING_DIST + 14))
             # print(self.crossed_zebra)
             if (not self.crossed_zebra and (traffic == TrafficLightStatus.red) and self.pos[0] - self.width /2  <= (WIDTH_CENTRE + ZEBRA_CROSSING_DIST + 20) ):
-                return
+                return False
             # if (self.crossed_zebra == 0 and self.pos[0] - self.width / 2 > WIDTH/2+zebra_crossing_dist):
             if (not self.crossed_zebra and self.pos[0] - self.width / 2 < WIDTH_CENTRE + ZEBRA_CROSSING_DIST):
                 self.crossed_zebra = 1
@@ -114,14 +114,11 @@ class Vehicle:
                 pass
             elif (self.dest_direction == Direction.down):
                 pass
-            
-            pass
+            return True
         elif self.direction == Direction.up:
             if not self.crossed_zebra and traffic == TrafficLightStatus.red and (self.pos[1] + self.height / 2) >= (HEIGHT_CENTRE - ZEBRA_CROSSING_DIST - 20):
-                return
-            # if (self.crossed_zebra == 0 and self.pos[1] + self.height / 2 < HEIGHT/2-zebra_crossing_dist):
+                return False
             if (not self.crossed_zebra and self.pos[1] + self.height / 2 > HEIGHT_CENTRE-zebra_crossing_dist):
-                # print("corssed")
                 self.crossed_zebra = 1
             if True:
                 self.pos[1] += self.speed
@@ -131,10 +128,10 @@ class Vehicle:
                 pass
             elif (self.dest_direction == Direction.right):
                 pass
-            pass
+            return True
         else:
             if not self.crossed_zebra and traffic == TrafficLightStatus.red and (self.pos[1] - self.height / 2) <= (HEIGHT_CENTRE + ZEBRA_CROSSING_DIST + 20):
-                return
+                return False
             # if (self.crossed_zebra == 0 and self.pos[1] - self.height / 2 > HEIGHT/2+zebra_crossing_dist):
             if (not self.crossed_zebra and self.pos[1] - self.height / 2 < HEIGHT_CENTRE+zebra_crossing_dist):
                 self.crossed_zebra = 1
@@ -146,7 +143,7 @@ class Vehicle:
                 self.pos[1] -= self.speed
             elif (self.dest_direction == Direction.right):
                 pass
-            pass
+            return True
         pass
 
     def stop(self):
