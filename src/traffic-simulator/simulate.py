@@ -1,13 +1,12 @@
-from filecmp import dircmp
 import sys, pygame
-from xml.etree.ElementPath import find
 from road import draw_road
 from traffic_light import TrafficLight
 import random
 import threading
 from vehicles import *
 from variables import *
-from time import sleep
+from time import sleep, time
+import math
 
 pygame.init()
 
@@ -142,7 +141,7 @@ def lightsChange1():
 
 traffic_lights[1].change_green_light_time(3)
 
-def get_greenligth_time(no_of_vehicles):
+def get_greenlight_time(no_of_vehicles):
     time = 2
     if no_of_vehicles == 0:
         return 0
@@ -152,7 +151,7 @@ def get_greenligth_time(no_of_vehicles):
         time += float(no_of_vehicles-1)*0.15
     return time
 
-def get_yellowligth_time(no_of_vehicles):
+def get_yellowlight_time(no_of_vehicles):
     time = 1.5
     if no_of_vehicles == 0:
         return 0
@@ -185,11 +184,27 @@ def get_yellowligth_time(no_of_vehicles):
 
 
 # lightsChange2()
+def truncate(number, decimals=0):
+    """
+    Returns a value truncated to a specific number of decimal places.
+    """
+    if not isinstance(decimals, int):
+        raise TypeError("decimal places must be an integer.")
+    elif decimals < 0:
+        raise ValueError("decimal places has to be 0 or more.")
+    elif decimals == 0:
+        return math.trunc(number)
+
+    factor = 10.0 ** decimals
+    return math.trunc(number * factor) / factor
 
 generate_vehicle_thread = threading.Thread(name="Initialization", target=generate_vehicle, args=())
 generate_vehicle_thread.daemon = True
 generate_vehicle_thread.start()
 
+start_time = time()
+pygame.font.get_init()
+font = pygame.font.SysFont('freesanbold.ttf', 30)
 
 while 1:
     pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
@@ -242,10 +257,10 @@ while 1:
     vehicles = temp_vechiles
     for i, light in enumerate(traffic_lights):
         no_of_vehicles = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
-        greentime = get_greenligth_time(no_of_vehicles)
+        greentime = get_greenlight_time(no_of_vehicles)
         light.change_green_light_time(greentime)
-        yellowtime = get_yellowligth_time(no_of_vehicles)
-        print(greentime)
+        yellowtime = get_yellowlight_time(no_of_vehicles)
+        # print(greentime)
         # light.change_yelow_light_time(yellowtime)
 
     # v1.move()
@@ -256,6 +271,14 @@ while 1:
     # v6.move()
     # v7.move()
     # v8.move()
+    end_time = time()
+
+    time_lapsed = truncate(end_time - start_time, 2)
+
+    txt = font.render(str(time_lapsed), True, (0, 0, 0))
+    txt_rect = txt.get_rect()
+    txt_rect.center = (40, 20) 
+    screen.blit(txt, txt_rect)
 
     pygame.display.flip()
 
