@@ -7,6 +7,8 @@ class TrafficLightStatus(Enum):
     yellow = pygame.Color(255, 255, 0) 
     green = pygame.Color(0, 255, 0) 
 
+
+
 class TrafficLight():
 
     def __init__(self, x, y, txt, color) -> None:
@@ -19,32 +21,43 @@ class TrafficLight():
         self.txt_rect.center = self.pos 
         self.status = TrafficLightStatus[color]
         self.radius = 15
+        self.RedTime = 10
+        self.GreenTime = 10
+        self.YellowTime = 4
     
-    def alterLights(self, index):
+    def alterLights1(self, index):
         if index == 0 or index == 1:
             self.status = TrafficLightStatus.green
-            sleep(5)
+            sleep(self.GreenTime)
             self.status = TrafficLightStatus.yellow
-            sleep(2)
+            sleep(self.YellowTime)
             self.status = TrafficLightStatus.red
-            sleep(7)
+            sleep(self.RedTime)
         else:
             self.status = TrafficLightStatus.red
-            sleep(7)
+            sleep(self.RedTime)
             self.status = TrafficLightStatus.green
-            sleep(5)
+            sleep(self.GreenTime)
             self.status = TrafficLightStatus.yellow
-            sleep(2)
-        
+            sleep(self.YellowTime)
+    
+
+    def alterLights2(self, index):
+        self.status = TrafficLightStatus.green
+        sleep(self.GreenTime)
+        self.status = TrafficLightStatus.yellow
+        sleep(self.YellowTime)
+        self.status = TrafficLightStatus.red
 
     def toggleLightStatus(self) -> None:
-        if self.status == TrafficLightStatus.red:
-            self.status = TrafficLightStatus.green
-        elif self.status == TrafficLightStatus.green:
-            self.status = TrafficLightStatus.yellow
-            # some delay
-            sleep(2)
+        if self.status == TrafficLightStatus.green:
+            sleep(5)
             self.status = TrafficLightStatus.red
+        # elif self.status == TrafficLightStatus.green:
+        #     self.status = TrafficLightStatus.yellow
+        #     # some delay
+        #     sleep(2)
+        #     self.status = TrafficLightStatus.red
     
     def get_status(self) -> TrafficLightStatus:
         return self.status
@@ -52,7 +65,10 @@ class TrafficLight():
     def changeLights(self, index):
         # self.toggleLightStatus()
         # print(index)
-        self.alterLights(index)
+        self.alterLights2(index)
+
+        # self.alterLights(index)
+
         # sleep(5)
 
     # def changeLights(self):
