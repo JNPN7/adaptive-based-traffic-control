@@ -31,31 +31,34 @@ traffic_lights = [
 ]
 
 v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left,
-             Direction.right)
+             Direction.up)
 v2 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.left,
-             Direction.right)
+             Direction.down)
 v3 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.right,
-             Direction.right)
+             Direction.up)
 v4 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.right,
+             Direction.down)
+v5 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.down,
+             Direction.left)
+v6 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.down,
              Direction.right)
-v5 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.up,
+v7 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.up,
              Direction.right)
-v6 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.up,
-             Direction.right)
-v7 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.down,
-             Direction.right)
-v8 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.down,
-             Direction.right)
+v8 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.up,
+             Direction.left)
+
 
 def initialize_lights():
     while True:
         for traffic in traffic_lights:
             traffic.chageLights()
 
-traffic_light_thread = threading.Thread(name="initialization", target=initialize_lights, args=())
+
+traffic_light_thread = threading.Thread(name="initialization",
+                                        target=initialize_lights,
+                                        args=())
 traffic_light_thread.daemon = True
 traffic_light_thread.start()
-
 
 while 1:
     pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
@@ -65,7 +68,6 @@ while 1:
         if event.type == pygame.QUIT: sys.exit()
 
     # ballrect = ballrect.move(speed)
-
 
     screen.fill('brown')
 
@@ -96,4 +98,3 @@ while 1:
     v8.move()
 
     pygame.display.flip()
-

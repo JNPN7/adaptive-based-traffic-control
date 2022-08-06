@@ -1,10 +1,11 @@
+from turtle import width
 import pygame
 from enum import Enum
 from variables import *
 
 size = WIDTH, HEIGHT = 700, 700
 ROAD_WIDTH = 150
-zebra_crossing_dist = ROAD_WIDTH/2*1.4
+zebra_crossing_dist = ROAD_WIDTH / 2 * 1.4
 
 
 class Direction(Enum):
@@ -22,12 +23,12 @@ class Lane(Enum):
 class Vehicle:
 
     def __init__(self, speed, width, height, lane, direction, dest_direction):
-        self.lane = lane,
-        self.dest_direction = dest_direction,
+        self.lane = lane
         self.speed = speed
         self.width = width
         self.height = height
         self.direction = direction
+        self.dest_direction = dest_direction
         self.crossed_zebra = 0
         self.pos = self._get_coordinate(direction, lane)
 
@@ -35,31 +36,33 @@ class Vehicle:
         x = 0
         y = 0
         if direction == Direction.left:
-            y = HEIGHT / 2
-            if lane == Lane.right:
-                y -= 3 / 4 * ROAD_WIDTH / 2
-            else:
-                y -= 1 / 4 * ROAD_WIDTH / 2 + 3
-        elif direction == Direction.right:
             x = WIDTH
             y = HEIGHT / 2
-            if lane == Lane.left:
-                y += 3 / 4 * ROAD_WIDTH / 2
-            else:
+            if lane == Lane.right:
                 y += 1 / 4 * ROAD_WIDTH / 2 + 3
-        elif direction == Direction.up:
-            x = WIDTH / 2
-            if lane == Lane.left:
-                x += 3 / 4 * ROAD_WIDTH / 2
             else:
-                x += 1 / 4 * ROAD_WIDTH / 2 + 3
+                y += 3 / 4 * ROAD_WIDTH / 2
+        elif direction == Direction.right:
+            x = 0
+            y = HEIGHT / 2
+            if lane == Lane.right:
+                y -= 1 / 4 * ROAD_WIDTH / 2 + 3
+            else:
+                y -= 3 / 4 * ROAD_WIDTH / 2
+        elif direction == Direction.up:
+            y = HEIGHT
+            x = WIDTH / 2
+            if lane == Lane.right:
+                x -= 1 / 4 * ROAD_WIDTH / 2 + 3
+            else:
+                x -= 3 / 4 * ROAD_WIDTH / 2
         else:
             x = WIDTH / 2
-            y = HEIGHT
+            y = 0
             if lane == Lane.right:
-                x -= 3 / 4 * ROAD_WIDTH / 2
+                x += 1 / 4 * ROAD_WIDTH / 2 + 3
             else:
-                x -= 1 / 4 * ROAD_WIDTH / 2 + 3
+                x += 3 / 4 * ROAD_WIDTH / 2
         return [x, y]
 
     def get_speed(self) -> int:
@@ -67,22 +70,188 @@ class Vehicle:
 
     def move(self):
         if self.direction == Direction.left:
-            if (self.crossed_zebra == 0 and self.pos[0] + self.width / 2 < WIDTH/2-zebra_crossing_dist):
-                self.pos[0] += self.speed
-            pass
-        elif self.direction == Direction.right:
-            if (self.crossed_zebra == 0 and self.pos[0] - self.width / 2 > WIDTH/2+zebra_crossing_dist):
+            if (self.crossed_zebra == 0):
                 self.pos[0] -= self.speed
-            pass
+                if (self.pos[0] - self.width / 2 <
+                        WIDTH / 2 + zebra_crossing_dist):
+                    self.pos[
+                        0] = WIDTH / 2 + zebra_crossing_dist + self.width / 2
+                    self.crossed_zebra = 1
+            else:
+                if self.direction != self.dest_direction:
+                    if self.dest_direction == Direction.up:
+                        if self.lane == Lane.left:
+                            if self.pos[0] > WIDTH / 2 - 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[0] -= self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 - 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    0] > WIDTH / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3:
+                                self.pos[0] -= self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3
+                                self.direction = self.dest_direction
+                    else:
+                        if self.lane == Lane.left:
+                            if self.pos[0] > WIDTH / 2 + 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[0] -= self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 + 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    0] > WIDTH / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3:
+                                self.pos[0] -= self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3
+                                self.direction = self.dest_direction
+                else:
+                    self.pos[0] -= self.speed
+
+        elif self.direction == Direction.right:
+            if (self.crossed_zebra == 0):
+                self.pos[0] += self.speed
+                if (self.pos[0] + self.width / 2 >
+                        WIDTH / 2 - zebra_crossing_dist):
+                    self.pos[
+                        0] = WIDTH / 2 - zebra_crossing_dist - self.width / 2
+                    self.crossed_zebra = 1
+            else:
+                if self.direction != self.dest_direction:
+                    if self.dest_direction == Direction.up:
+                        if self.lane == Lane.left:
+                            if self.pos[0] < WIDTH / 2 - 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[0] += self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 - 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    0] < WIDTH / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3:
+                                self.pos[0] += self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3
+                                self.direction = self.dest_direction
+                    else:
+                        if self.lane == Lane.left:
+                            if self.pos[0] < WIDTH / 2 + 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[0] += self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 + 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    0] < WIDTH / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3:
+                                self.pos[0] += self.speed
+                            else:
+                                self.pos[
+                                    0] = WIDTH / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3
+                                self.direction = self.dest_direction
+                else:
+                    self.pos[0] += self.speed
+
         elif self.direction == Direction.up:
-            if (self.crossed_zebra == 0 and self.pos[1] + self.height / 2 < HEIGHT/2-zebra_crossing_dist):
-                self.pos[1] += self.speed
-            pass
-        else:
-            if (self.crossed_zebra == 0 and self.pos[1] - self.height / 2 > HEIGHT/2+zebra_crossing_dist):
+            if (self.crossed_zebra == 0):
                 self.pos[1] -= self.speed
-            pass
-        pass
+                if (self.pos[1] - self.height / 2 <
+                        HEIGHT / 2 + zebra_crossing_dist):
+                    self.pos[
+                        1] = HEIGHT / 2 + zebra_crossing_dist + self.height / 2
+                    self.crossed_zebra = 1
+            else:
+                if self.direction != self.dest_direction:
+                    if self.dest_direction == Direction.right:
+                        if self.lane == Lane.left:
+                            if self.pos[
+                                    1] > HEIGHT / 2 - 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[1] -= self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 - 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    1] > HEIGHT / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3:
+                                self.pos[1] -= self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3
+                                self.direction = self.dest_direction
+                    else:
+                        if self.lane == Lane.left:
+                            if self.pos[
+                                    1] > HEIGHT / 2 + 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[1] -= self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 + 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    1] > HEIGHT / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3:
+                                self.pos[1] -= self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3
+                                self.direction = self.dest_direction
+                else:
+                    self.pos[1] -= self.speed
+        else:
+            if (self.crossed_zebra == 0):
+                self.pos[1] += self.speed
+                if (self.pos[1] + self.height / 2 >
+                        HEIGHT / 2 - zebra_crossing_dist):
+                    self.pos[
+                        1] = HEIGHT / 2 - zebra_crossing_dist - self.height / 2
+                    self.crossed_zebra = 1
+            else:
+                if self.direction != self.dest_direction:
+                    if self.dest_direction == Direction.right:
+                        if self.lane == Lane.left:
+                            if self.pos[
+                                    1] < HEIGHT / 2 - 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[1] += self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 - 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    1] < HEIGHT / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3:
+                                self.pos[1] += self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 - 1 / 4 * ROAD_WIDTH / 2 - 3
+                                self.direction = self.dest_direction
+                    else:
+                        if self.lane == Lane.left:
+                            if self.pos[
+                                    1] < HEIGHT / 2 + 3 / 4 * ROAD_WIDTH / 2:
+                                self.pos[1] += self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 + 3 / 4 * ROAD_WIDTH / 2
+                                self.direction = self.dest_direction
+                        else:
+                            if self.pos[
+                                    1] < HEIGHT / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3:
+                                self.pos[1] += self.speed
+                            else:
+                                self.pos[
+                                    1] = HEIGHT / 2 + 1 / 4 * ROAD_WIDTH / 2 + 3
+                                self.direction = self.dest_direction
+
+                else:
+                    self.pos[1] += self.speed
 
     def stop(self):
         pass
@@ -91,23 +260,23 @@ class Vehicle:
         pass
 
     def _get_rect_pos(self):
-        x = (self.pos[0] - self.width / 2 , self.pos[1] - self.height / 2, self.width, self.height)
+        x = (self.pos[0] - self.width / 2, self.pos[1] - self.height / 2,
+             self.width, self.height)
         return x
 
     # @abstractmethod
     def draw(self, screen):
         # print(self._get_rect_pos())
         pygame.draw.rect(screen, 'blue', self._get_rect_pos())
-        pass
 
 
 class Bus(Vehicle):
+
     def __init__(self, pos, speed, length, breadth) -> None:
         super().__init__(pos, speed, length, breadth)
 
 
 class Car(Vehicle):
+
     def __init__(self, pos, speed, length, breadth) -> None:
         super().__init__(pos, speed, length, breadth)
-
-    
