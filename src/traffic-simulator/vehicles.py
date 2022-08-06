@@ -1,9 +1,11 @@
 import pygame
 from enum import Enum
+from variables import *
 
 size = WIDTH, HEIGHT = 700, 700
 ROAD_WIDTH = 150
 zebra_crossing_dist = ROAD_WIDTH/2*1.4
+
 
 class Direction(Enum):
     up = 'up'
@@ -11,11 +13,14 @@ class Direction(Enum):
     left = 'left'
     right = 'right'
 
+
 class Lane(Enum):
     right = 1,
     left = 2
 
+
 class Vehicle:
+
     def __init__(self, speed, width, height, lane, direction, dest_direction):
         self.lane = lane,
         self.dest_direction = dest_direction,
@@ -30,37 +35,36 @@ class Vehicle:
         x = 0
         y = 0
         if direction == Direction.left:
-            y = HEIGHT/2
+            y = HEIGHT / 2
             if lane == Lane.right:
-                y -= 3/4 * ROAD_WIDTH/2
+                y -= 3 / 4 * ROAD_WIDTH / 2
             else:
-                y -= 1/4 * ROAD_WIDTH/2 + 3
+                y -= 1 / 4 * ROAD_WIDTH / 2 + 3
         elif direction == Direction.right:
             x = WIDTH
-            y = HEIGHT/2
+            y = HEIGHT / 2
             if lane == Lane.left:
-                y += 3/4 * ROAD_WIDTH/2
+                y += 3 / 4 * ROAD_WIDTH / 2
             else:
-                y += 1/4 * ROAD_WIDTH/2 + 3
+                y += 1 / 4 * ROAD_WIDTH / 2 + 3
         elif direction == Direction.up:
-            x = WIDTH/2
+            x = WIDTH / 2
             if lane == Lane.left:
-                x += 3/4 * ROAD_WIDTH/2
+                x += 3 / 4 * ROAD_WIDTH / 2
             else:
-                x += 1/4 * ROAD_WIDTH/2 + 3 
-        else: 
-            x = WIDTH/2
+                x += 1 / 4 * ROAD_WIDTH / 2 + 3
+        else:
+            x = WIDTH / 2
             y = HEIGHT
             if lane == Lane.right:
-                x -= 3/4 * ROAD_WIDTH/2
+                x -= 3 / 4 * ROAD_WIDTH / 2
             else:
-                x -= 1/4 * ROAD_WIDTH/2 + 3 
+                x -= 1 / 4 * ROAD_WIDTH / 2 + 3
         return [x, y]
-
 
     def get_speed(self) -> int:
         return self.speed
-    
+
     def move(self):
         if self.direction == Direction.left:
             if (self.crossed_zebra == 0 and self.pos[0] + self.width / 2 < WIDTH/2-zebra_crossing_dist):
@@ -79,7 +83,7 @@ class Vehicle:
                 self.pos[1] -= self.speed
             pass
         pass
-    
+
     def stop(self):
         pass
 
@@ -95,14 +99,15 @@ class Vehicle:
         # print(self._get_rect_pos())
         pygame.draw.rect(screen, 'blue', self._get_rect_pos())
         pass
-    
 
 
 class Bus(Vehicle):
-    def __init__(self, pos, speed, width, height) -> None:
-        super().__init__(pos, speed, width, height)
-    
+    def __init__(self, pos, speed, length, breadth) -> None:
+        super().__init__(pos, speed, length, breadth)
+
 
 class Car(Vehicle):
-    def __init__(self, pos, speed, width, height) -> None:
-        super().__init__(pos, speed, width, height)
+    def __init__(self, pos, speed, length, breadth) -> None:
+        super().__init__(pos, speed, length, breadth)
+
+    
