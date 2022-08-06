@@ -1,4 +1,4 @@
-# Adaptive based traffic control system simulation
+# Adaptive traffic light control system simulation
 ## Introduction
 An adaptive traffic control system to be developed during KU hackfest 2022. Here in this project, we have developed simulation of the road traffic in crossroads from scratch and tried to depict the problems that can occur due to traffic congestion. Here, we propose an adaptive traffic control system that controls the time of traffic lights based on the traffic present in the road. Although, we planned to incorporate AI to perform adaptive traffic control we were unable to incorporate AI due to lack of time and research. So currently, we have implemented a basic adaptive traffic light control system and tried to compare performance of adaptive system to a normal traffic light system present in crossroads by visualizing the road traffic.
 <hr>
