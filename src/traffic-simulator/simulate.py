@@ -7,6 +7,7 @@ from vehicles import *
 from variables import *
 from time import sleep, time
 import math
+import pickle
 
 pygame.init()
 
@@ -32,15 +33,21 @@ traffic_lights = [
                  WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T','red'),
 ]
 
-vehicles_list99 = []
-for i in range(100):
-    lane = Lane(random.randint(1, 2))
-    direction = Direction(random.randint(1, 4))
-    lst = list(range(1, 5))
-    del lst[direction.value - 1]
-    dest_direction = Direction(random.choice(lst))
-    vehicle = Vehicle(0.17, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direction)
-    vehicles_list99.append(vehicle)
+# vehicles_list100 = []
+# for i in range(100):
+#     lane = Lane(random.randint(1, 2))
+#     direction = Direction(random.randint(1, 4))
+#     lst = list(range(1, 5))
+#     del lst[direction.value - 1]
+#     dest_direction = Direction(random.choice(lst))
+#     vehicle = Vehicle(0.17, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direction)
+#     vehicles_list100.append(vehicle)
+
+# with open("data.dat","wb") as f:
+#     pickle.dump(vehicles_list100,f)
+
+with open('data.dat',"rb") as f:
+    vehicles_list99 = pickle.load(f)
 
 # print(vehicles_list99)
 
