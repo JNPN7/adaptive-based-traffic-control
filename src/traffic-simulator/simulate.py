@@ -7,57 +7,62 @@ from vehicles import *
 
 pygame.init()
 
-
-
 speed = [0, 0]
 
 black = 0, 0, 0
 
-
 screen = pygame.display.set_mode(size)
 
-
 ball = pygame.image.load("img.jpg")
-# ball = 
-pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10 , 10))
+# ball =
+pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
 
 ballrect = ball.get_rect()
 
-traffic_lights =  [
-    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4, WIDTH / 2 - ROAD_WIDTH /2 * 1.4, 'L'), 
-    TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4, WIDTH / 2 + ROAD_WIDTH /2 * 1.4, 'R'), 
-    TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4, WIDTH / 2 - ROAD_WIDTH /2 * 1.4, 'T'), 
-    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4, WIDTH / 2 + ROAD_WIDTH /2 * 1.4, 'B'), 
+traffic_lights = [
+    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
+                 WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'L'),
+    TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
+                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'R'),
+    TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
+                 WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T'),
+    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
+                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'B'),
 ]
 
-v1 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.left, Direction.right)
-v2 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.left, Direction.right)
-v3 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.right, Direction.right)
-v4 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.right, Direction.right)
-v5 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.up, Direction.right)
-v6 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.up, Direction.right)
-v7 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.left, Direction.down, Direction.right)
-v8 = Vehicle(10, ROAD_WIDTH/6, ROAD_WIDTH/6, Lane.right, Direction.down, Direction.right)
-
+v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left,
+             Direction.right)
+v2 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.left,
+             Direction.right)
+v3 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.right,
+             Direction.right)
+v4 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.right,
+             Direction.right)
+v5 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.up,
+             Direction.right)
+v6 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.up,
+             Direction.right)
+v7 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.down,
+             Direction.right)
+v8 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.down,
+             Direction.right)
 
 while 1:
-    pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10 , 10))
+    pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
 
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT: sys.exit()
 
+    # ballrect = ballrect.move(speed)
 
-    ballrect = ballrect.move(speed)
+    # if ballrect.left < 0 or ballrect.right > WIDTH:
 
-    if ballrect.left < 0 or ballrect.right > WIDTH:
+    #     speed[0] = -speed[0]
 
-        speed[0] = -speed[0]
+    # if ballrect.top < 0 or ballrect.bottom > HEIGHT:
 
-    if ballrect.top < 0 or ballrect.bottom > HEIGHT:
-
-        speed[1] = -speed[1]
-
+    #     speed[1] = -speed[1]
 
     screen.fill('green')
 
@@ -75,3 +80,12 @@ while 1:
     v7.draw(screen)
     v8.draw(screen)
     pygame.display.flip()
+
+    v1.move()
+    v2.move()
+    v3.move()
+    v4.move()
+    v5.move()
+    v6.move()
+    v7.move()
+    v8.move()
