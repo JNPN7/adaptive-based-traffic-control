@@ -9,16 +9,33 @@ class TrafficLightStatus(Enum):
 
 class TrafficLight():
 
-    def __init__(self, x, y, txt) -> None:
+    def __init__(self, x, y, txt, color) -> None:
         pygame.font.get_init()      
         font1 = pygame.font.SysFont('freesanbold.ttf', 30)
         self.txt = font1.render(txt, True, (0, 0, 0))
         self.txt_rect = self.txt.get_rect()
         self.pos = (x, y)
         self.txt_rect.center = self.pos 
-        self.status = TrafficLightStatus.red
+        self.status = TrafficLightStatus[color]
         self.radius = 15
     
+    def alterLights(self, index):
+        if index == 0 or index == 1:
+            self.status = TrafficLightStatus.green
+            sleep(5)
+            self.status = TrafficLightStatus.yellow
+            sleep(2)
+            self.status = TrafficLightStatus.red
+            sleep(7)
+        else:
+            self.status = TrafficLightStatus.red
+            sleep(7)
+            self.status = TrafficLightStatus.green
+            sleep(5)
+            self.status = TrafficLightStatus.yellow
+            sleep(2)
+        
+
     def toggleLightStatus(self) -> None:
         if self.status == TrafficLightStatus.red:
             self.status = TrafficLightStatus.green
@@ -31,9 +48,16 @@ class TrafficLight():
     def get_status(self) -> TrafficLightStatus:
         return self.status
     
-    def chageLights(self):
-        self.toggleLightStatus()
-        sleep(5)
+    def changeLights(self, index):
+        # self.toggleLightStatus()
+        print(index)
+        self.alterLights(index)
+        # sleep(5)
+
+    # def changeLights(self):
+    #     self.toggleLightStatus()
+    #     # self.alterLights()
+    #     sleep(5)
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.status.value, center=self.pos, radius=self.radius)
