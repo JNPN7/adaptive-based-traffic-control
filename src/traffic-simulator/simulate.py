@@ -1,9 +1,11 @@
+import imp
 import sys, pygame
 from road import draw_road
 from traffic_light import TrafficLight
 
 import threading
 from vehicles import *
+from variables import *
 
 pygame.init()
 
@@ -30,20 +32,20 @@ traffic_lights = [
                  WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'B'),
 ]
 
-v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left,
-             Direction.right)
+v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left, 
+             Direction.left)
 v2 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.left,
              Direction.right)
 v3 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.right,
              Direction.right)
 v4 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.right,
-             Direction.right)
+             Direction.up)
 v5 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.up,
-             Direction.right)
+             Direction.up)
 v6 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.up,
-             Direction.right)
+             Direction.down)
 v7 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.down,
-             Direction.right)
+             Direction.down)
 v8 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.down,
              Direction.right)
 

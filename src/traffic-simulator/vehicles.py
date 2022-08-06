@@ -2,8 +2,6 @@ import pygame
 from enum import Enum
 from variables import *
 
-size = WIDTH, HEIGHT = 700, 700
-ROAD_WIDTH = 150
 zebra_crossing_dist = ROAD_WIDTH/2*1.4
 
 
@@ -23,13 +21,15 @@ class Vehicle:
 
     def __init__(self, speed, width, height, lane, direction, dest_direction):
         self.lane = lane,
-        self.dest_direction = dest_direction,
         self.speed = speed
         self.width = width
         self.height = height
         self.direction = direction
+        self.dest_direction = dest_direction
         self.crossed_zebra = 0
         self.pos = self._get_coordinate(direction, lane)
+        print(self.direction)
+        print(self.dest_direction)
 
     def _get_coordinate(self, direction, lane):
         x = 0
@@ -69,18 +69,43 @@ class Vehicle:
         if self.direction == Direction.left:
             if (self.crossed_zebra == 0 and self.pos[0] + self.width / 2 < WIDTH/2-zebra_crossing_dist):
                 self.pos[0] += self.speed
+            elif (self.dest_direction == Direction.right):
+                self.pos[0] += self.speed
+            elif (self.dest_direction == Direction.up):
+                pass
+            elif (self.dest_direction == Direction.down):
+                pass
             pass
         elif self.direction == Direction.right:
             if (self.crossed_zebra == 0 and self.pos[0] - self.width / 2 > WIDTH/2+zebra_crossing_dist):
                 self.pos[0] -= self.speed
+            elif (self.dest_direction == Direction.left):
+                self.pos[0] -= self.speed
+            elif (self.dest_direction == Direction.up):
+                pass
+            elif (self.dest_direction == Direction.down):
+                pass
+            
             pass
         elif self.direction == Direction.up:
             if (self.crossed_zebra == 0 and self.pos[1] + self.height / 2 < HEIGHT/2-zebra_crossing_dist):
                 self.pos[1] += self.speed
+            elif (self.dest_direction == Direction.down):
+                self.pos[1] += self.speed
+            elif (self.dest_direction == Direction.left):
+                pass
+            elif (self.dest_direction == Direction.right):
+                pass
             pass
         else:
             if (self.crossed_zebra == 0 and self.pos[1] - self.height / 2 > HEIGHT/2+zebra_crossing_dist):
                 self.pos[1] -= self.speed
+            elif (self.dest_direction == Direction.up):
+                self.pos[1] -= self.speed
+            elif (self.dest_direction == Direction.left):
+                self.pos[0] -= self.speed
+            elif (self.dest_direction == Direction.right):
+                pass
             pass
         pass
 
