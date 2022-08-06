@@ -1,4 +1,5 @@
 from enum import Enum
+from time import sleep
 import pygame
 
 class TrafficLightStatus(Enum):
@@ -24,10 +25,15 @@ class TrafficLight():
         elif self.status == TrafficLightStatus.green:
             self.status = TrafficLightStatus.yellow
             # some delay
+            sleep(2)
             self.status = TrafficLightStatus.red
     
     def get_status(self) -> TrafficLightStatus:
         return self.status
+    
+    def chageLights(self):
+        self.toggleLightStatus()
+        sleep(5)
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.status.value, center=self.pos, radius=self.radius)

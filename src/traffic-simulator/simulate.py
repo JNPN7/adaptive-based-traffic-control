@@ -1,8 +1,8 @@
 import sys, pygame
 from road import draw_road
 from traffic_light import TrafficLight
-from variables import *
 
+import threading
 from vehicles import *
 
 pygame.init()
@@ -47,6 +47,16 @@ v7 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.down,
 v8 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.right, Direction.down,
              Direction.right)
 
+def initialize_lights():
+    while True:
+        for traffic in traffic_lights:
+            traffic.chageLights()
+
+traffic_light_thread = threading.Thread(name="initialization", target=initialize_lights, args=())
+traffic_light_thread.daemon = True
+traffic_light_thread.start()
+
+
 while 1:
     pygame.draw.rect(screen, pygame.Color(255, 0, 0), (0, 10, 10, 10))
 
@@ -56,19 +66,15 @@ while 1:
 
     # ballrect = ballrect.move(speed)
 
-    # if ballrect.left < 0 or ballrect.right > WIDTH:
 
-    #     speed[0] = -speed[0]
+    screen.fill('brown')
 
-    # if ballrect.top < 0 or ballrect.bottom > HEIGHT:
-
-    #     speed[1] = -speed[1]
-
-    screen.fill('green')
-
-    # screen.blit(ball, ballrect)
     for traffic in traffic_lights:
         traffic.draw(screen)
+    # print(f'left light status: {traffic_lights[0].get_status()}')
+    # print(f'right light status: {traffic_lights[1].get_status()}')
+    # print(f'top light status: {traffic_lights[2].get_status()}')
+    # print(f'bottom light status: {traffic_lights[3].get_status()}')
 
     draw_road(screen, WIDTH, HEIGHT, ROAD_WIDTH)
     v1.draw(screen)
@@ -79,7 +85,6 @@ while 1:
     v6.draw(screen)
     v7.draw(screen)
     v8.draw(screen)
-    pygame.display.flip()
 
     v1.move()
     v2.move()
@@ -89,3 +94,6 @@ while 1:
     v6.move()
     v7.move()
     v8.move()
+
+    pygame.display.flip()
+
