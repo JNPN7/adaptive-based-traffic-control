@@ -272,11 +272,11 @@ while 1:
             vehicles_dict[vehicle.direction][vehicle.lane].remove(vehicle)
 
     vehicles = temp_vechiles
-    for i, light in enumerate(traffic_lights):
-        no_of_vehicles = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
-        greentime = get_greenlight_time(no_of_vehicles)
-        light.change_green_light_time(greentime)
-        yellowtime = get_yellowlight_time(no_of_vehicles)
+    # for i, light in enumerate(traffic_lights):
+    #     no_of_vehicles = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
+    #     greentime = get_greenlight_time(no_of_vehicles)
+    #     light.change_green_light_time(greentime)
+    #     yellowtime = get_yellowlight_time(no_of_vehicles)
     
     if generate_completed == True and len(vehicles) == 0: 
         print('Simulation Complete')

@@ -21,8 +21,10 @@ class TrafficLight():
         self.txt_rect.center = self.pos 
         self.status = TrafficLightStatus[color]
         self.radius = 15
-        self.RedTime = 9
-        self.GreenTime = 8
+        # self.RedTime = 9
+        # self.GreenTime = 8
+        self.RedTime = 8
+        self.GreenTime = 7
         self.YellowTime = 1
     
     def alterLights1(self, index):
