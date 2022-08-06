@@ -36,6 +36,23 @@ def dashed_line(surface, color, start_pos, end_pos, width=1, dash_length=10):
     for index in range(0, int(length / dash_length), 2):
         start = origin + (slope * index * dash_length)
         end = origin + (slope * (index + 1) * dash_length)
+        # print(start.get())
+        # print(end.get())
+        pygame.draw.line(surface, color, start.get(), end.get(), width)
+
+
+def dashed_zebra_line(surface, color, start_pos, end_pos, width=1, dash_length=10):
+    origin = Point(start_pos)
+    target = Point(end_pos)
+    displacement = target - origin
+    length = len(displacement)
+    slope = displacement / length
+
+    for index in range(0, int(length / dash_length), 10):
+        start = origin + (slope * index * dash_length)
+        end = origin + (slope * (index + 1) * dash_length)
+        # print(start.get())
+        # print(end.get())
         pygame.draw.line(surface, color, start.get(), end.get(), width)
 
 def dashed_rect(surface, color, rect, width=1, dash_length=10):
