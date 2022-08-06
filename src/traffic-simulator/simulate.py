@@ -25,12 +25,12 @@ ballrect = ball.get_rect()
 traffic_lights = [
     TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
                  WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'L','red'),
+    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
+                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'B','red'),
     TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
                  WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'R','red'),
     TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
                  WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T','red'),
-    TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
-                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'B','red'),
 ]
 
 # v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left, 
@@ -51,9 +51,9 @@ traffic_lights = [
 #              Direction.right)
 vehicles_stopped = {
     Direction.left : [],
+    Direction.down : [],
     Direction.right : [],
     Direction.up : [],
-    Direction.down : []
 }
 vehicles = []
 vehicles_dict = {
@@ -61,6 +61,13 @@ vehicles_dict = {
         # Direction.right: [],
         # Direction.up: [],
         # Direction.down: []
+        Lane.left: [],
+        Lane.right: []
+    },
+    Direction.down: {
+        # Direction.left: [],
+        # Direction.right: [],
+        # Direction.up: []
         Lane.left: [],
         Lane.right: []
     },
@@ -78,21 +85,14 @@ vehicles_dict = {
         Lane.left: [],
         Lane.right: []
     },
-    Direction.down: {
-        # Direction.left: [],
-        # Direction.right: [],
-        # Direction.up: []
-        Lane.left: [],
-        Lane.right: []
-    }
 }
 
 def find_associate_light(vehicle):
     if vehicle.direction == Direction.left:
         return traffic_lights[0]
-    elif vehicle.direction == Direction.right:
+    elif vehicle.direction == Direction.down:
         return traffic_lights[1]
-    elif vehicle.direction == Direction.up:
+    elif vehicle.direction == Direction.right:
         return traffic_lights[2]
     return traffic_lights[3]
 
@@ -103,7 +103,7 @@ def generate_vehicle():
         lst = list(range(1, 5))
         del lst[direction.value - 1]
         dest_direciton = Direction(random.choice(lst))
-        vehicle = Vehicle(0.2, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direciton)
+        vehicle = Vehicle(0.17, ROAD_WIDTH / 6, ROAD_WIDTH / 6, lane, direction, dest_direciton)
         vehicles.append(vehicle)
         vehicles_dict[direction][lane].append(vehicle)
         # print(vehicles_dict)
@@ -139,6 +139,28 @@ def lightsChange1():
     traffic_light_thread4 = threading.Thread(name="initialization4", target=initialize_lights, args=(3,))
     traffic_light_thread4.daemon = True
     traffic_light_thread4.start()
+
+traffic_lights[1].change_green_light_time(3)
+
+def get_greenligth_time(no_of_vehicles):
+    time = 2
+    if no_of_vehicles == 0:
+        return 0
+    elif no_of_vehicles == 1:
+        return time
+    else:
+        time += float(no_of_vehicles-1)*0.15
+    return time
+
+def get_yellowligth_time(no_of_vehicles):
+    time = 1.5
+    if no_of_vehicles == 0:
+        return 0
+    elif no_of_vehicles == 1:
+        return time
+    else:
+        time += float(no_of_vehicles-1)*0.1
+    return time
 
 # lightsChange1()
 
@@ -218,6 +240,14 @@ while 1:
             vehicles_dict[vehicle.direction][vehicle.lane].remove(vehicle)
 
     vehicles = temp_vechiles
+    for i, light in enumerate(traffic_lights):
+        no_of_vehicles = len(vehicles_stopped[list(vehicles_stopped.keys())[i]])
+        greentime = get_greenligth_time(no_of_vehicles)
+        light.change_green_light_time(greentime)
+        yellowtime = get_yellowligth_time(no_of_vehicles)
+        print(greentime)
+        # light.change_yelow_light_time(yellowtime)
+
     # v1.move()
     # v2.move()
     # v3.move()

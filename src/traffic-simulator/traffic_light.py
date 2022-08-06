@@ -21,9 +21,9 @@ class TrafficLight():
         self.txt_rect.center = self.pos 
         self.status = TrafficLightStatus[color]
         self.radius = 15
-        self.RedTime = 10
-        self.GreenTime = 10
-        self.YellowTime = 4
+        self.RedTime = 9
+        self.GreenTime = 8
+        self.YellowTime = 1
     
     def alterLights1(self, index):
         if index == 0 or index == 1:
@@ -67,7 +67,7 @@ class TrafficLight():
         # print(index)
         self.alterLights2(index)
 
-        # self.alterLights(index)
+        # self.alterLights1(index)
 
         # sleep(5)
 
@@ -75,6 +75,17 @@ class TrafficLight():
     #     self.toggleLightStatus()
     #     # self.alterLights()
     #     sleep(5)
+
+    def change_green_light_time(self, time):
+        self.GreenTime = time
+
+    def change_red_light_time(self, time):
+        self.RedTime = time
+
+    def change_yelow_light_time(self, time):
+        # print(time)
+        self.YellowTime = time
+        # print(self.YellowTime)
 
     def draw(self, screen, count):
         count_txt = self.font1.render(str(count), True, (0, 0, 0)) 
