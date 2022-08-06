@@ -25,13 +25,13 @@ ballrect = ball.get_rect()
 
 traffic_lights = [
     TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
-                 WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'L','green'),
+                 WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'L','red'),
     TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
-                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'R','green'),
+                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'R','red'),
     TrafficLight(HEIGHT / 2 + ROAD_WIDTH / 2 * 1.4,
-                 WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T','green'),
+                 WIDTH / 2 - ROAD_WIDTH / 2 * 1.4, 'T','red'),
     TrafficLight(HEIGHT / 2 - ROAD_WIDTH / 2 * 1.4,
-                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'B','green'),
+                 WIDTH / 2 + ROAD_WIDTH / 2 * 1.4, 'B','red'),
 ]
 
 # v1 = Vehicle(0.1, ROAD_WIDTH / 6, ROAD_WIDTH / 6, Lane.left, Direction.left, 
@@ -104,33 +104,60 @@ def generate_vehicle():
         # print(vehicles_dict)
         sleep(1)
 
-def initialize_lights(index):
+def initialize_lights(indexs):
     while True:
-        # for traffic in traffic_lights:
-        #     # print(traffic)
-        #     traffic[0].changeLights()
-        traffic_lights[index].changeLights(index)
+        if indexs == 10:
+            for index, traffic in enumerate(traffic_lights):
+                # print(traffic)
+                traffic.changeLights(index)
+        else:
+            traffic_lights[indexs].changeLights(indexs)
 
 
-# traffic_light_thread = threading.Thread(name="initialization", target=initialize_lights, args=())
-# traffic_light_thread.daemon = True
-# traffic_light_thread.start()
+traffic_light_thread = threading.Thread(name="initialization", target=initialize_lights, args=(10,))
+traffic_light_thread.daemon = True
+traffic_light_thread.start()
 
-traffic_light_thread1 = threading.Thread(name="initialization1", target=initialize_lights, args=(0,))
-traffic_light_thread1.daemon = True
-traffic_light_thread1.start()
+def lightsChange1():
+    traffic_light_thread1 = threading.Thread(name="initialization1", target=initialize_lights, args=(0,))
+    traffic_light_thread1.daemon = True
+    traffic_light_thread1.start()
 
-traffic_light_thread2 = threading.Thread(name="initialization2", target=initialize_lights, args=(1,))
-traffic_light_thread2.daemon = True
-traffic_light_thread2.start()
+    traffic_light_thread2 = threading.Thread(name="initialization2", target=initialize_lights, args=(1,))
+    traffic_light_thread2.daemon = True
+    traffic_light_thread2.start()
 
-traffic_light_thread3 = threading.Thread(name="initialization3", target=initialize_lights, args=(2,))
-traffic_light_thread3.daemon = True
-traffic_light_thread3.start()
+    traffic_light_thread3 = threading.Thread(name="initialization3", target=initialize_lights, args=(2,))
+    traffic_light_thread3.daemon = True
+    traffic_light_thread3.start()
 
-traffic_light_thread4 = threading.Thread(name="initialization4", target=initialize_lights, args=(3,))
-traffic_light_thread4.daemon = True
-traffic_light_thread4.start()
+    traffic_light_thread4 = threading.Thread(name="initialization4", target=initialize_lights, args=(3,))
+    traffic_light_thread4.daemon = True
+    traffic_light_thread4.start()
+
+# lightsChange1()
+
+# def lightsChange2():
+#     traffic_light_thread1 = threading.Thread(name="initialization1", target=initialize_lights, args=(0,))
+#     traffic_light_thread1.daemon = True
+#     traffic_light_thread1.start()
+
+#     traffic_light_thread2 = threading.Thread(name="initialization2", target=initialize_lights, args=(1,))
+#     traffic_light_thread2.daemon = True
+#     traffic_light_thread2.start()
+
+#     traffic_light_thread3 = threading.Thread(name="initialization3", target=initialize_lights, args=(2,))
+#     traffic_light_thread3.daemon = True
+#     traffic_light_thread3.start()
+
+#     traffic_light_thread4 = threading.Thread(name="initialization4", target=initialize_lights, args=(3,))
+#     traffic_light_thread4.daemon = True
+#     traffic_light_thread4.start()
+
+
+
+
+# lightsChange2()
 
 generate_vehicle_thread = threading.Thread(name="Initialization", target=generate_vehicle, args=())
 generate_vehicle_thread.daemon = True
