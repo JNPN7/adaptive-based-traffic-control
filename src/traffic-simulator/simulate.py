@@ -151,6 +151,7 @@ while 1:
         vehicle.draw(screen)
         light = find_associate_light(vehicle)
         vehicle.move(vehicles_dict, light)
+        # if vehicle.pos[0]
 
     # v1.move()
     # v2.move()
