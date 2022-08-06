@@ -1,14 +1,13 @@
 import sys, pygame
 from road import draw_road
 from traffic_light import TrafficLight
+from variables import *
 
 from vehicles import *
 
 pygame.init()
 
 
-size = WIDTH, HEIGHT = 700, 700
-ROAD_WIDTH = 150
 
 speed = [0, 0]
 

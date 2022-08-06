@@ -1,8 +1,6 @@
 import pygame
 from enum import Enum
-
-size = WIDTH, HEIGHT = 700, 700
-ROAD_WIDTH = 150
+from variables import *
 
 class Direction(Enum):
     up = 'up'
