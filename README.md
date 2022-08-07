@@ -43,12 +43,22 @@ Some challenges we faced when developing this system are :
 
 ## Snapshots
 <img src="/gitimg/adaptive1.png" alt="adaptive" title="Adaptive 1">
+
 <img src="/gitimg/adaptive2.png" alt="adaptive" title="Adaptive 2">
+
 <img src="/gitimg/non_adaptive1.png" alt="non adaptive" title="Non Adaptive 1">
+
 <img src="/gitimg/non_adaptive2.png" alt="non adaptive" title="Non Adaptive 2">
+
 <img src="/gitimg/adaptive_non_adaptive.png" alt="adaptive and adaptive" title="Adaptive and non adaptive">
 
 <hr>
 
 ## Video Demo
-https://youtu.be/IMgbWbiLIlU
+[Youtube Link](https://youtu.be/IMgbWbiLIlU)
+
+
+https://user-images.githubusercontent.com/43902648/183271549-15050535-4d19-4b22-9d1d-bd29c4b42e5d.mp4
+
+
+
